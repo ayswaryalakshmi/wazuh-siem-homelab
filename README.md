@@ -44,7 +44,7 @@ All three Docker containers (Dashboard, Manager, and Indexer) are actively runni
 
 ### 2. Wazuh Agent Active on Endpoint
 The Wazuh agent is installed, enabled, and actively running on the ARM64 Ubuntu Endpoint VM.
-![Endpoint Agent](endpoint-agent.png)
+![Endpoint Agent](endpoint_agent.png)
 
 4. **API Timeout Mitigation:**
    * *Challenge:* The Wazuh Dashboard timed out waiting for the Indexer (database) to respond under emulation load.
