@@ -18,3 +18,12 @@ Wrote a custom correlation rule to detect SSH brute-force attempts by monitoring
   <description>SSH Brute Force Attempt Detected (Custom Correlation)</description>
   <group>ssh,authentication_failed,custom</group>
 </rule>
+
+Challenges & Troubleshooting
+Cross-Architecture Emulation: Successfully navigated the challenges of running x86_64 Wazuh Docker containers on an ARM64 Mac by utilizing QEMU user-static emulation and tonistiigi/binfmt.
+
+Docker Formatting: Resolved critical YAML configuration errors (bad indentation of a mapping entry) that were preventing the Wazuh Dashboard from booting.
+
+Network Routing: Configured UTM virtual network interfaces to ensure seamless log ingestion between the Endpoint and Manager.
+
+
