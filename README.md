@@ -40,7 +40,7 @@ Building an enterprise SIEM on an Apple Silicon Mac required navigating several 
 
 ### 1. Wazuh Manager Stack Running
 All three Docker containers (Dashboard, Manager, and Indexer) are actively running on the Intel-emulated Ubuntu VM.
-![Manager Containers](manager-containers.png)
+![Manager Containers](docker_manager.png)
 
 ### 2. Wazuh Agent Active on Endpoint
 The Wazuh agent is installed, enabled, and actively running on the ARM64 Ubuntu Endpoint VM.
