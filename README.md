@@ -35,6 +35,9 @@ Building an enterprise SIEM on an Apple Silicon Mac required navigating several 
 3. **Virtual Network Routing & Agent Ingestion:**
    * *Challenge:* The Endpoint agent could not communicate with the Manager due to UTM's isolated virtual network modes (Shared Network vs. Bridged vs. Emulated VLAN).
    * *Solution:* Reconfigured network topologies, implemented port forwarding (`127.0.0.1:9443` -> Guest `443`), and corrected the agent's `ossec.conf` to point to the Manager's static IP, ensuring seamless telemetry flow.
+4. **API Timeout Mitigation:**
+   * *Challenge:* The Wazuh Dashboard timed out waiting for the Indexer (database) to respond under emulation load.
+   * *Solution:* Manually injected a custom `timeout: 120000` parameter into the dashboard's configuration file to accommodate the latency of the QEMU emulation layer.
 
    ## Proof of Deployment
 
@@ -46,6 +49,4 @@ All three Docker containers (Dashboard, Manager, and Indexer) are actively runni
 The Wazuh agent is installed, enabled, and actively running on the ARM64 Ubuntu Endpoint VM.
 ![Endpoint Agent](endpoint_agent.png)
 
-4. **API Timeout Mitigation:**
-   * *Challenge:* The Wazuh Dashboard timed out waiting for the Indexer (database) to respond under emulation load.
-   * *Solution:* Manually injected a custom `timeout: 120000` parameter into the dashboard's configuration file to accommodate the latency of the QEMU emulation layer.
+
