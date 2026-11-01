@@ -18,12 +18,24 @@ Wrote a custom correlation rule to detect SSH brute-force attempts by monitoring
   <description>SSH Brute Force Attempt Detected (Custom Correlation)</description>
   <group>ssh,authentication_failed,custom</group>
 </rule>
+```
+## Challenges & Troubleshooting (The "Real World" Experience)
+...
 
-Challenges & Troubleshooting
-Cross-Architecture Emulation: Successfully navigated the challenges of running x86_64 Wazuh Docker containers on an ARM64 Mac by utilizing QEMU user-static emulation and tonistiigi/binfmt.
+Building an enterprise SIEM on an Apple Silicon Mac required navigating several infrastructure and emulation hurdles:
 
-Docker Formatting: Resolved critical YAML configuration errors (bad indentation of a mapping entry) that were preventing the Wazuh Dashboard from booting.
+1. **Cross-Architecture Emulation:** 
+   * *Challenge:* The official Wazuh Docker images are built for AMD64 (Intel) architecture, but the host Mac is ARM64. 
+   * *Solution:* Installed QEMU user-static emulation and utilized `tonistiigi/binfmt` to allow the ARM64 Linux kernel to execute x86_64 Docker containers, successfully bypassing `exec format error` crashes.
 
-Network Routing: Configured UTM virtual network interfaces to ensure seamless log ingestion between the Endpoint and Manager.
+2. **Docker Configuration & File System Errors:**
+   * *Challenge:* Encountered `EISDIR` and `bad indentation of a mapping entry` errors during container initialization. 
+   * *Solution:* Diagnosed that Docker had created a directory instead of a text file due to a broken volume mount, and manually corrected the YAML syntax in `wazuh.yml` to ensure proper API handshakes.
 
+3. **Virtual Network Routing & Agent Ingestion:**
+   * *Challenge:* The Endpoint agent could not communicate with the Manager due to UTM's isolated virtual network modes (Shared Network vs. Bridged vs. Emulated VLAN).
+   * *Solution:* Reconfigured network topologies, implemented port forwarding (`127.0.0.1:9443` -> Guest `443`), and corrected the agent's `ossec.conf` to point to the Manager's static IP, ensuring seamless telemetry flow.
 
+4. **API Timeout Mitigation:**
+   * *Challenge:* The Wazuh Dashboard timed out waiting for the Indexer (database) to respond under emulation load.
+   * *Solution:* Manually injected a custom `timeout: 120000` parameter into the dashboard's configuration file to accommodate the latency of the QEMU emulation layer.
